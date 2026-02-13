@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Xit.fxtagizn v2</title>
+
+<style>
+body{
+    margin:0;
+    font-family:Arial, Helvetica, sans-serif;
+    background:linear-gradient(135deg,#0f0f0f,#1a1a1a);
+    color:white;
+}
+
+#painel{
+    width:340px;
+    background:#111;
+    border:2px solid #00ffcc;
+    border-radius:15px;
+    padding:20px;
+    position:fixed;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    box-shadow:0 0 25px #00ffcc;
+}
+
+h1{
+    text-align:center;
+    color:#00ffcc;
+    margin-bottom:10px;
+}
+
+input, select{
+    width:100%;
+    padding:8px;
+    margin-top:5px;
+    border-radius:5px;
+    border:none;
+    outline:none;
+}
+
+button{
+    width:100%;
+    padding:10px;
+    margin-top:10px;
+    border:none;
+    border-radius:5px;
+    background:#00ffcc;
+    color:black;
+    font-weight:bold;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+button:hover{
+    background:#00ffaa;
+    box-shadow:0 0 10px #00ffcc;
+}
+
+.hidden{
+    display:none;
+}
+
+#resultado{
+    margin-top:15px;
+    font-size:14px;
+    background:#000;
+    padding:10px;
+    border-radius:10px;
+}
+</style>
+</head>
+<body>
+
+<div id="painel">
+    <h1>Xit.fxtagizn</h1>
+
+    <label>Modelo do Celular:</label>
+    <input type="text" id="modelo" placeholder="Ex: Samsung A14">
+
+    <label>Escolha o Tipo de Sensi:</label>
+    <select id="tipoSensi">
+        <option value="1">1 - Muito Alta (Rush)</option>
+        <option value="2">2 - Alta Agressiva</option>
+        <option value="3">3 - Capa Fácil</option>
+        <option value="4">4 - Competitiva</option>
+        <option value="5">5 - Equilibrada</option>
+        <option value="6">6 - Baixa Precisa</option>
+        <option value="7">7 - Sniper</option>
+        <option value="8">8 - 4 Dedo</option>
+        <option value="9">9 - Treino Custom</option>
+        <option value="10">10 - Ultra 200</option>
+    </select>
+
+    <button onclick="gerarSensi()">Gerar Sensibilidade</button>
+    <button onclick="togglePainel()">Esconder Painel</button>
+
+    <div id="resultado"></div>
+</div>
+
+<button id="abrir" onclick="togglePainel()" 
+style="position:fixed;bottom:20px;right:20px;" 
+class="hidden">Abrir</button>
+
+<script>
+function gerarSensi(){
+    let modelo = document.getElementById("modelo").value;
+    let tipo = document.getElementById("tipoSensi").value;
+    let resultado = document.getElementById("resultado");
+
+    if(modelo.trim() === ""){
+        resultado.innerHTML = "Digite o modelo do celular!";
+        return;
+    }
+
+    let base = modelo.length * 5; // Personalização simples baseada no nome
+
+    let geral, red, x2, x4, awm;
+
+    switch(tipo){
+        case "1": geral=200; red=190; x2=180; x4=170; awm=150; break;
+        case "2": geral=190; red=180; x2=170; x4=160; awm=140; break;
+        case "3": geral=180; red=170; x2=160; x4=150; awm=130; break;
+        case "4": geral=170; red=160; x2=150; x4=140; awm=120; break;
+        case "5": geral=160; red=150; x2=140; x4=130; awm=110; break;
+        case "6": geral=140; red=130; x2=120; x4=110; awm=100; break;
+        case "7": geral=130; red=120; x2=110; x4=100; awm=90; break;
+        case "8": geral=175; red=165; x2=155; x4=145; awm=125; break;
+        case "9": geral=150; red=145; x2=135; x4=125; awm=105; break;
+        case "10": geral=200; red=200; x2=195; x4=185; awm=170; break;
+    }
+
+    // Ajuste leve baseado no modelo
+    geral -= base % 10;
+    red -= base % 8;
+    x2 -= base % 6;
+    x4 -= base % 5;
+    awm -= base % 4;
+
+    resultado.innerHTML = `
+    📱 Modelo: ${modelo}<br><br>
+    🎯 Geral: ${geral}<br>
+    🔴 Red Dot: ${red}<br>
+    🔭 2x: ${x2}<br>
+    🔎 4x: ${x4}<br>
+    🎯 AWM: ${awm}
+    `;
+}
+
+function togglePainel(){
+    document.getElementById("painel").classList.toggle("hidden");
+    document.getElementById("abrir").classList.toggle("hidden");
+}
+</script>
+
+</body>
+</html>
+
+
+
